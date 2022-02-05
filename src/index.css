@@ -63,46 +63,11 @@ hr {
     transition: all 0.4s ease-in;
 }
 
-.hide {
-    display: none;
-}
+
 
 
 /* dashboard style*/
 
-.dashboardContainer {
-    display: flex;
-    width: 100%;
-}
-
-.sidebar {
-    height: 100vh;
-    width: 12%;
-    background-color: black;
-    padding-top: 55px;
-    overflow-y: auto;
-}
-
-.sidebar a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    color: #818181;
-    display: block;
-    margin-top: 20px;
-}
-
-.sidebar a:hover {
-    color: #f1f1f1;
-}
-
-.maincontent {
-    height: 100vh;
-    width: 88%;
-    background-color: whitesmoke;
-    overflow-y: auto;
-}
 
 .active {
     color: rgb(1, 15, 1);
@@ -113,19 +78,6 @@ hr {
     color: rgb(1, 15, 1);
 }
 
-#box {
-    display: flex;
-    justify-content: space-between;
-    height: 100%;
-    width: 100%;
-    padding: 0;
-}
-
-#iconholder {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 
 /* dashboard */

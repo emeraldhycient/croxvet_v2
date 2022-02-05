@@ -19,63 +19,62 @@ function Login() {
       progress: undefined,
     });
 
-  const [isloading, setisloading] = useState(false);
-
-  const toggleloading = () => {
-    setisloading((e) => !e);
-  };
-
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-
-  const submitForm = (e) => {
-    e.preventDefault();
-
-    const formdata = new FormData();
-    formdata.append("email", email);
-    formdata.append("password", password);
-
-    toggleloading();
-
-    axios({
-      method: "POST",
-      url: "https://api.croxvest.com/api/auth/login.php",
-      data: formdata,
-    })
-      .then((res) => {
-        if (res.data.data.user.isadmin) {
-          notify(res.data.message);
-          sessionStorage.setItem("admindata", res.data.data.user);
-          sessionStorage.setItem("admin", res.data.data.user.userid);
-          sessionStorage.setItem("username", res.data.data.user.username);
-          sessionStorage.setItem("email", res.data.data.user.email);
-          sessionStorage.setItem("hashadmin", res.data.data.hash);
-          setTimeout(() => {
-            history.push("/admin/");
-          }, 600);
-        } else {
-          notify(res.data.message);
-          sessionStorage.setItem("userdata", res.data.data.user);
-          sessionStorage.setItem("user", res.data.data.user.userid);
-          sessionStorage.setItem("username", res.data.data.user.username);
-          sessionStorage.setItem("hashuser", res.data.data.hash);
-          setTimeout(() => {
-            history.push("/dashboard/");
-          }, 600);
-        }
+    const [isloading, setisloading] = useState(false);
+  
+    const toggleloading = () => {
+      setisloading((e) => !e);
+    };
+  
+    const [email, setemail] = useState("");
+    const [password, setpassword] = useState("");
+  
+    const submitForm = (e) => {
+      e.preventDefault();
+  
+      const formdata = new FormData();
+      formdata.append("email", email);
+      formdata.append("password", password);
+  
+      toggleloading();
+  
+      axios({
+        method: "POST",
+        url: "https://api.croxvest.com/api/auth/login.php",
+        data: formdata,
       })
-      .catch((err) => {
-        console.log(err);
-        notify(err.response.data.message);
-      })
-      .finally((e) => {
-        setTimeout(() => {
-          toggleloading();
-        }, 1000);
-      });
-
-    return false;
-  };
+        .then((res) => {
+          if (res.data.data.user.isadmin) {
+            window.alert(res.data.message);
+            sessionStorage.setItem("adminid", res.data.data.user.userid);
+            sessionStorage.setItem("username", res.data.data.user.username);
+            sessionStorage.setItem("email", res.data.data.user.email);
+            sessionStorage.setItem("hashadmin", res.data.data.hash);
+            setTimeout(() => {
+              history.push("/admin/dashboard/");
+            }, 600);
+          } else {
+            window.alert(res.data.message);
+            sessionStorage.setItem("userid", res.data.data.user.userid);
+            sessionStorage.setItem("username", res.data.data.user.username);
+            sessionStorage.setItem("hashuser", res.data.data.hash);
+            setTimeout(() => {
+              history.push("/user/dashboard");
+            }, 600);
+          }
+          console.log(res);
+        })
+        .catch((err) => {
+          window.alert(err.response.data.message);
+          console.log(err.response.data);
+        })
+        .finally((e) => {
+          setTimeout(() => {
+            toggleloading();
+          }, 1000);
+        });
+  
+      return false;
+    };
 
   return (
     <>

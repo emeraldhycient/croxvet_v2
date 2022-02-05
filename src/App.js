@@ -16,28 +16,19 @@ import Contact from "./components/pages/Contact"
 import Login from "./components/pages/Login";
 import Signup from "./components/pages/Signup";
 import Four0Four from "./components/Four0Four"
-import Index2 from './components/clone/Index2';
-/* user dashboard */
-import Home from "./components/dashboard/Home";
-import Deposit from "./components/dashboard/Deposit";
-import Withdrawal from "./components/dashboard/Withdrawal";
-import Settings from "./components/dashboard/Settings";
-import Alltransactions from "./components/dashboard/Alltransactions";
-/* user dashboard */
-
-/* admin dashboard */
-import Admin_index from './components/admin/Admin_index'
-import Members from './components/admin/Members'
-import Deposits from './components/admin/Deposits'
-import Withdrawals from './components/admin/Withdrawals'
-import Packages from './components/admin/Packages'
-import Payment_settings from './components/admin/Payment_settings'
-import Referrals from './components/admin/Referrals'
-import Messages from './components/admin/Messages'
-import Emails from './components/admin/Emails'
-import Admin_settings from './components/admin/Admin_settings'
+/*  dashboard */
+import UserDashboard from "./components/Dashboards/user/UserDashboard";
+import AdminDashboard from "./components/Dashboards/admin/AdminDashboard";
+import Deposit from "./components/Dashboards/user/Deposit";
+import Withdrawal from "./components/Dashboards/user/Withdrawal";
+import Settings from "./components/Dashboards/user/Setting";
+import Users from "./components/Dashboards/admin/Users";
+import Paymentmethod from "./components/Dashboards/admin/Paymentmethod";
+import Withdrawals from "./components/Dashboards/admin/Withdrawals";
+import Deposits from "./components/Dashboards/admin/Deposits";
+import Setting from "./components/Dashboards/admin/Settings";
 import Clone2 from './components/clone2/Clone2';
-/* admin dashboard */
+/*  dashboard */
 
 
 function App() {
@@ -53,29 +44,49 @@ function App() {
         <Route path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/signup/:referralid" component={Signup} />
-        {/* user dashboard */}
-        <ProtectedRoutes path="/dashboard/" exact component={Home} />
-        <ProtectedRoutes path="/dashboard/deposit" component={Deposit} />
-        <ProtectedRoutes path="/dashboard/withdraw" component={Withdrawal} />
-        <ProtectedRoutes path="/dashboard/All-transactions" component={Alltransactions} />
-        <ProtectedRoutes path="/dashboard/settings" component={Settings} />
-        {/* user dashboard */}
+        <ProtectedRoutes
+            path="/user/dashboard"
+            exact
+            component={UserDashboard}
+          />
+          <ProtectedRoutes
+            path="/user/dashboard/deposit/:currency"
+            exact
+            component={Deposit}
+          />
+          <ProtectedRoutes
+            path="/user/dashboard/withdrawal/:currency"
+            exact
+            component={Withdrawal}
+          />
 
-        {/* admin dashboard */}
-        <Protectadmin path='/admin/' exact component={Admin_index} />
-        <Protectadmin exact path='/admin/members' component={Members} />
-        <Protectadmin exact path='/admin/members/:userid' component={Members} />
-        <Protectadmin path='/admin/deposits' component={Deposits} />
-        <Protectadmin path='/admin/withdrawals' component={Withdrawals} />
-        <Protectadmin path='/admin/packages' component={Packages} />
-        <Protectadmin path='/admin/payment_settings' component={Payment_settings} />
-        <Protectadmin path='/admin/Referrals' component={Referrals} />
-        <Protectadmin path='/admin/messages' component={Messages} />
-        <Protectadmin path='/admin/Email' component={Emails} />
-        <Protectadmin path='/admin/settings' component={Admin_settings} />
+          <ProtectedRoutes
+            path="/user/dashboard/Setting"
+            exact
+            component={Settings}
+          />
 
-        {/* admin dashboard */}
+          <Protectadmin
+            path="/admin/dashboard"
+            exact
+            component={AdminDashboard}
+          />
+          <Protectadmin path="/admin/dashboard/users" exact component={Users} />
+          <Protectadmin
+            path="/admin/dashboard/users/:userid"
+            component={Users}
+          />
+          <Protectadmin
+            path="/admin/dashboard/payment-methods"
+            component={Paymentmethod}
+          />
+          <Protectadmin
+            path="/admin/dashboard/withdrawals"
+            component={Withdrawals}
+          />
+          <Protectadmin path="/admin/dashboard/deposits" component={Deposits} />
 
+          <Protectadmin path="/admin/dashboard/Setting" component={Setting} />
 
         <Route path="*" exact component={Four0Four} />
       </Switch>

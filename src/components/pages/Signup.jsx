@@ -10,31 +10,15 @@ function Signup() {
   const { referralid } = useParams();
 
   const [isloading, setisloading] = useState(false);
-  const [plans, setplans] = useState(false);
 
   const toggleloading = () => {
     setisloading((e) => !e);
   };
 
-  const notify = (message) =>
-    toast(`🦄 ${message}`, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-
   const [fname, setfname] = useState("");
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
-  const [cpassword, setcpassword] = useState("");
   const [email, setemail] = useState("");
-  const [country, setcountry] = useState("");
-  const [plan, setplan] = useState("");
-  const [Currency, setCurrency] = useState("");
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -45,9 +29,9 @@ function Signup() {
     formdata.append("username", username);
     formdata.append("password", password);
     formdata.append("email", email);
-    formdata.append("country", country);
-    formdata.append("plan", plan);
-    formdata.append("currency", Currency);
+    formdata.append("country", "country");
+    formdata.append("plan", "plan");
+    formdata.append("currency", "Currency");
     formdata.append("isadmin", "");
     formdata.append("referredby", referralid);
 
@@ -58,7 +42,7 @@ function Signup() {
     })
       .then((res) => {
         if (res.data.status === "success") {
-          notify(res.data.message);
+          window.alert(res.data.message);
           setTimeout(() => {
             history.push("/login");
           }, 1000);
@@ -66,8 +50,7 @@ function Signup() {
         console.log(e);
       })
       .catch((err) => {
-        console.log(err)
-        notify(err.response.data.message);
+        window.alert(err.response.data.message);
       })
       .finally(() => {
         setTimeout(() => {
@@ -77,43 +60,6 @@ function Signup() {
 
     return false;
   };
-
-  const [pass_error, setpass_error] = useState("");
-
-  const regex = new RegExp(
-    "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,})"
-  );
-
-  const checkPass = () => {
-    if ((password !== "" || cpassword !== "") && password !== cpassword) {
-      setpass_error("passwords doesnt match");
-    } else {
-      if (
-        (password !== "" || cpassword !== "") &&
-        (!regex.test(cpassword) || !regex.test(password))
-      ) {
-        setpass_error(
-          "password must contain atleast one lower case , one upper case , one special character and one number"
-        );
-      } else {
-        setpass_error("");
-      }
-    }
-  };
-
-  useEffect(() => {
-    axios
-      .get("https://api.croxvest.com/api/admin/packages.php?all=all")
-      .then((res) => {
-        //console.log(res);
-        let mod = Object.values(res.data.data);
-        setplans(mod);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    checkPass();
-  }, [password, cpassword]);
 
   return (
     <>
@@ -141,9 +87,10 @@ function Signup() {
               <input
                 type="text"
                 className="form-control form-control-lg mb-3"
-                onChange={(e) => setfname(e.target.value)}
+                name="fullname"
                 value={fname}
-                placeholder="your Full name"
+                onChange={(e) => setfname(e.target.value)}
+                placeholder=" Full name"
                 aria-label="your fullname"
                 aria-describedby="basic-addon1"
                 required
@@ -171,82 +118,20 @@ function Signup() {
                 required
               />
 
-              {pass_error ? (
-                <div className="alert alert-warning" id="pass_error">
-                  {pass_error}
-                </div>
-              ) : (
-                ""
-              )}
-
-              <input
-                type="password"
-                onChange={(e) => setcpassword(e.target.value)}
-                value={cpassword}
-                className="form-control form-control-lg mb-3"
-                placeholder="Confirm password"
-                aria-label="your password"
-                aria-describedby="basic-addon2"
-                required
-              />
+           
 
               <input
                 type="email"
                 className="form-control form-control-lg mb-3"
                 onChange={(e) => setemail(e.target.value)}
                 value={email}
-                placeholder="your email"
+                placeholder="email"
                 aria-label="your email"
                 aria-describedby="basic-addon1"
                 required
               />
 
-              <input
-                type="text"
-                onChange={(e) => setcountry(e.target.value)}
-                value={country}
-                className="form-control form-control-lg mb-3"
-                placeholder="Enter Country"
-                aria-label="enter country"
-                aria-describedby="basic-addon1"
-                required
-              />
-
-              <select
-                className="form-control form-control-lg mb-3"
-                onChange={(e) => setplan(e.target.value)}
-                value={plan}
-                required
-              >
-                <option>Select Investment Plan</option>
-                {plans ? (
-                  plans.map((item, i) => (
-                    <option value={item.plan} key={i}>
-                      {item.plan}
-                    </option>
-                  ))
-                ) : (
-                  <>
-                    <option value="basic plan">Basic plan</option>
-                    <option value="silver plan">Silver plan</option>
-                    <option value="deposit plan"> Deposit plan</option>
-                    <option value="promo plan">Promo plan</option>
-                  </>
-                )}
-              </select>
-
-              <select
-                className="form-control form-control-lg mb-3"
-                onChange={(e) => setCurrency(e.target.value)}
-                value={Currency}
-                required
-              >
-                <option>Select Your Currency</option>
-                <option value="usd">&#36; Eth</option>
-                <option value="euro ">&euro; Lte</option>
-                <option value="pound">&#163; Usd</option>
-                <option value="bitcoin ">&#8383; Bitcoin</option>
-              </select>
+            
               {isloading ? (
                 <button className="btn btn-lg col primary text-white float-right mx-2 my-4">
                   <img
